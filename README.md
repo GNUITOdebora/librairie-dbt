@@ -28,6 +28,11 @@ commandes         →    stg_commandes           →    mart_top_clients
 commandes_lignes  →    stg_commandes_lignes    →    mart_ventes_mensuelles
 avis              →    stg_avis                →
 ```
+### Data Lineage
+
+> Graphe de dépendances généré par `dbt docs generate`
+
+![Data Lineage](lineage.png)
 
 **Couche staging** — une vue par table source : nettoyage, renommage, colonnes calculées.  
 **Couche marts** — tables agrégées prêtes pour dashboards et analyses.
