@@ -1,0 +1,20 @@
+
+target/
+dbt_packages/
+logs/
+
+# ══ Secrets ══
+.env                  # variables d'environnement
+*.env
+
+
+# ══ Python ══
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+env/
+
+# ══ OS ══
+.DS_Store
+Thumbs.db

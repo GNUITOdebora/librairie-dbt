@@ -1,0 +1,65 @@
+# models/marts/schema.yml  — version enrichie
+
+version: 2
+
+models:
+
+  - name: mart_ca_par_genre
+    description: >
+      Chiffre d'affaires agrégé par genre littéraire.
+      Ne comptabilise que les commandes avec statut 'livree'.
+      Utilisé pour les graphiques de performance par catégorie.
+    columns:
+      - name: genre
+        description: "Genre littéraire (Fantasy, Classique, Science-Fiction…)"
+      - name: nb_lignes_vente
+        description: "Nombre total de lignes de commande pour ce genre"
+      - name: unites_vendues
+        description: "Total d'exemplaires vendus"
+      - name: ca_total
+        description: "Chiffre d'affaires total en euros (commandes livrées)"
+      - name: panier_moyen_ligne
+        description: "Montant moyen par ligne de commande"
+
+  - name: mart_top_clients
+    description: >
+      Classement des clients par chiffre d'affaires total.
+      Inclut la segmentation RFM simplifiée Bronze / Argent / Or.
+      Basé uniquement sur les commandes livrées.
+    columns:
+      - name: nom
+        description: "Nom complet du client"
+      - name: ville
+        description: "Ville de résidence"
+      - name: anciennete_jours
+        description: "Nombre de jours depuis l'inscription"
+      - name: nb_commandes
+        description: "Nombre de commandes livrées"
+      - name: ca_total
+        description: "Montant total dépensé en euros"
+      - name: panier_moyen
+        description: "Montant moyen par commande"
+      - name: segment
+        description: "Segment fidélité : Bronze < 50€ / Argent 50-100€ / Or > 100€"
+
+  - name: mart_ventes_mensuelles
+    description: >
+      Évolution mensuelle des ventes et du CA.
+      Inclut le CA cumulé par année pour suivre la progression.
+    columns:
+      - name: annee
+        description: "Année de la commande"
+      - name: mois_num
+        description: "Numéro du mois (1-12)"
+      - name: mois_label
+        description: "Libellé du mois en français"
+      - name: nb_commandes
+        description: "Nombre de commandes livrées ce mois"
+      - name: nb_clients_actifs
+        description: "Nombre de clients distincts ayant commandé"
+      - name: unites_vendues
+        description: "Total d'exemplaires vendus"
+      - name: ca_mensuel
+        description: "CA du mois en euros"
+      - name: ca_cumule_annee
+        description: "CA cumulé depuis janvier de l'année en cours"

@@ -1,0 +1,140 @@
+# models/staging/schema.yml
+
+version: 2
+
+models:
+
+  - name: stg_clients
+    description: "Clients nettoyés — un client par ligne"
+    columns:
+      - name: client_id
+        description: "Clé primaire"
+        tests:
+          - not_null
+          - unique                        # chaque client a un id unique
+
+      - name: email
+        tests:
+          - not_null
+          - unique                        # pas deux clients avec le même email
+
+      - name: nom
+        tests:
+          - not_null
+
+      - name: anciennete_jours
+        tests:
+          - not_null
+
+  - name: stg_livres
+    description: "Catalogue de livres nettoyé"
+    columns:
+      - name: livre_id
+        tests:
+          - not_null
+          - unique
+
+      - name: titre
+        tests:
+          - not_null
+
+      - name: prix
+        tests:
+          - not_null
+
+      - name: alerte_stock
+        tests:
+          - not_null
+          - accepted_values:             # seules ces valeurs sont autorisées
+              values: ['ok', 'faible', 'critique', 'epuise']
+
+  - name: stg_commandes
+    description: "Commandes nettoyées"
+    columns:
+      - name: commande_id
+        tests:
+          - not_null
+          - unique
+
+      - name: client_id
+        tests:
+          - not_null
+          - relationships:               # chaque client_id doit exister dans stg_clients
+              to: ref('stg_clients')
+              field: client_id
+
+      - name: statut
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['en_attente', 'expediee', 'livree', 'annulee']
+
+      - name: est_livree
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+  - name: stg_commandes_lignes
+    description: "Lignes de commande nettoyées"
+    columns:
+      - name: ligne_id
+        tests:
+          - not_null
+          - unique
+
+      - name: commande_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_commandes')
+              field: commande_id
+
+      - name: livre_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_livres')
+              field: livre_id
+
+      - name: quantite
+        tests:
+          - not_null
+
+      - name: montant_ligne
+        tests:
+          - not_null
+
+  - name: stg_avis
+    description: "Avis nettoyés"
+    columns:
+      - name: avis_id
+        tests:
+          - not_null
+          - unique
+
+      - name: note
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+
+      - name: sentiment
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['positif', 'neutre', 'negatif']
+
+      - name: client_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_clients')
+              field: client_id
+
+      - name: livre_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_livres')
+              field: livre_id

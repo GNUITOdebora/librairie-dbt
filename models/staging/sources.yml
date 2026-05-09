@@ -1,0 +1,84 @@
+# models/staging/sources.yml
+
+version: 2
+
+sources:
+  - name: librairies                  # nom logique — utilisé dans source('librairie', ...)
+    database: librairies              # votre base MySQL (ignoré par dbt-mysql, mais bonne pratique de doc)
+    schema: librairies                # schema MySQL = votre base
+
+    description: "Base de données brute de la librairie en ligne"
+
+    tables:
+
+      - name: clients
+        description: "Clients inscrits sur la librairie"
+        columns:
+          - name: id
+            description: "Identifiant unique du client"
+          - name: nom
+            description: "Nom complet"
+          - name: email
+            description: "Email — doit être unique"
+          - name: ville
+            description: "Ville de résidence"
+          - name: date_inscription
+            description: "Date de première inscription"
+
+      - name: livres
+        description: "Catalogue complet des livres disponibles"
+        columns:
+          - name: id
+            description: "Identifiant unique du livre"
+          - name: titre
+            description: "Titre du livre"
+          - name: auteur
+            description: "Auteur"
+          - name: genre
+            description: "Genre littéraire"
+          - name: prix
+            description: "Prix catalogue en euros"
+          - name: stock
+            description: "Quantité disponible en stock"
+
+      - name: commandes
+        description: "Commandes passées par les clients"
+        columns:
+          - name: id
+            description: "Identifiant unique de la commande"
+          - name: client_id
+            description: "Référence vers clients.id"
+          - name: date_commande
+            description: "Date de la commande"
+          - name: statut
+            description: "Statut : en_attente, expediee, livree, annulee"
+
+      - name: commandes_lignes
+        description: "Lignes de détail de chaque commande (un livre par ligne)"
+        columns:
+          - name: id
+            description: "Identifiant unique de la ligne"
+          - name: commande_id
+            description: "Référence vers commandes.id"
+          - name: livre_id
+            description: "Référence vers livres.id"
+          - name: quantite
+            description: "Nombre d'exemplaires commandés"
+          - name: prix_unitaire
+            description: "Prix au moment de l'achat (peut différer du prix catalogue)"
+
+      - name: avis
+        description: "Avis et notes laissés par les clients sur les livres"
+        columns:
+          - name: id
+            description: "Identifiant unique de l'avis"
+          - name: client_id
+            description: "Référence vers clients.id"
+          - name: livre_id
+            description: "Référence vers livres.id"
+          - name: note
+            description: "Note de 1 à 5"
+          - name: commentaire
+            description: "Texte libre du commentaire"
+          - name: date_avis
+            description: "Date de publication de l'avis"
