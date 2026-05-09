@@ -178,16 +178,6 @@ Done. PASS=52 WARN=0 ERROR=0 SKIP=0 TOTAL=52
 
 ---
 
-## Sécurité
-
-| Élément sensible | Protection |
-|---|---|
-| `profiles.yml` | Stocké dans `~/.dbt/` — hors du repo git |
-| Mots de passe | Variables d'environnement via `env_var()` |
-| Fichier `.env` | Listé dans `.gitignore` — jamais commité |
-| `target/` | Ignoré par git — contient les fichiers compilés |
-
----
 
 ## Structure du projet
 
